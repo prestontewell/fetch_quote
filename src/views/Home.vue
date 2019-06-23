@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <button v-on:click="nextPage">Next</button>
     <div v-for= "quote in filteredQuotes">
       <h1>"{{ quote.quote }}"</h1>
       <div class="source">
@@ -70,13 +71,13 @@ export default {
       ],
       startingQuote: 0, 
       maxQuotes: 15,
-      endQuotes: 15
+      endQuote: 15
     };
   },
 
   computed: {
     filteredQuotes: function () {
-      return this.quotes.slice(this.startingQuote, this.maxQuotes)
+      return this.quotes.slice(this.startingQuote, this.endQuote)
     }
   },
   
@@ -88,6 +89,16 @@ export default {
   //   .then(response => (this.info = response))
   //   },
 
-  methods: {}
+  methods: {
+    nextPage: function () {  
+      this.startingQuote += this.maxQuotes;
+      this.endQuote += this.maxQuotes;
+      if(this.startingQuote >= this.quotes.length){
+        this.startingQuote = 0;
+        this.endQuote = this.maxQuotes
+      }
+      console.log(this.filteredQuotes)
+    }
+  }
 };
 </script>
