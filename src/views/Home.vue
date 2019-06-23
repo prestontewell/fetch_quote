@@ -10,9 +10,7 @@
       </div>
     </div>
     <div class="pageNav">
-      <a v-on:click="changePage(1)"> 1 </a>
-      <a v-on:click="changePage(2)"> 2 </a>
-      <a v-on:click="changePage(3)"> 3 </a>
+      <a v-for="i in numOfPages" :key="i" v-on:click="changePage(i)"> {{ i }} </a>
     </div>
   </div>
 </template>
