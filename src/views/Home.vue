@@ -1,12 +1,18 @@
 <template>
   <div class="home">
-    <button v-on:click="nextPage">Next</button>
+    <!-- <button v-on:click="previousPage">Previous</button>
+    <button v-on:click="nextPage">Next</button> -->
     <div v-for= "quote in filteredQuotes">
       <h1>"{{ quote.quote }}"</h1>
       <div class="source">
         <h2> - {{ quote.source}}</h2>
         <h3>{{ quote.context}}</h3>
       </div>
+    </div>
+    <div class="pageNav">
+      <a v-on:click="changePage(1)"> 1 </a>
+      <a v-on:click="changePage(2)"> 2 </a>
+      <a v-on:click="changePage(3)"> 3 </a>
     </div>
   </div>
 </template>
@@ -16,8 +22,11 @@
     float: right;
     padding-right: 50px
   }
-  h1{
+  h1, .pageNav{
     clear: both;
+  }
+  .pageNav{
+    font-weight: bold;
   }
 </style>
 
@@ -71,13 +80,16 @@ export default {
       ],
       startingQuote: 0, 
       maxQuotes: 15,
-      endQuote: 15
+      endQuote: 15,
     };
   },
 
   computed: {
-    filteredQuotes: function () {
+    filteredQuotes: function() {
       return this.quotes.slice(this.startingQuote, this.endQuote)
+    },
+    numOfPages: function() {
+      return Math.ceil(this.quotes.length / this.maxQuotes)
     }
   },
   
@@ -90,15 +102,30 @@ export default {
   //   },
 
   methods: {
-    nextPage: function () {  
-      this.startingQuote += this.maxQuotes;
-      this.endQuote += this.maxQuotes;
-      if(this.startingQuote >= this.quotes.length){
-        this.startingQuote = 0;
-        this.endQuote = this.maxQuotes
-      }
-      console.log(this.filteredQuotes)
+    changePage: function (page) {
+      this.startingQuote = (page - 1 ) * this.maxQuotes;
+      this.endQuote = page * this.maxQuotes;
+      // console.log("We are here")
     }
+    // nextPage: function () {  
+    //   this.startingQuote += this.maxQuotes;
+    //   this.endQuote += this.maxQuotes;
+    //   if(this.startingQuote >= this.quotes.length){
+    //     this.startingQuote = 0;
+    //     this.endQuote = this.maxQuotes
+    //   }
+    //   console.log(this.filteredQuotes)
+    // },
+    // previousPage: function () {
+    //   this.startingQuote -= this.maxQuotes;
+    //   this.endQuote -= this.maxQuotes;
+    //   if(this.startingQuote < 0){
+    //     this.endQuote = this.quotes.length
+    //     this.startingQuote = this.quotes.length - this.maxQuotes
+    //   }
+    // }
+
+
   }
 };
 </script>
