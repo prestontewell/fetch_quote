@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import axios from 'axios';
+import axios from 'axios'
 import https from 'https'
+import Vue2Filters from 'vue2-filters'	
 
 
 

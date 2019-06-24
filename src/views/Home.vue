@@ -1,8 +1,15 @@
 <template>
-  <div class="home">
+  <div class="home" id="quotes">
     <!-- <button v-on:click="previousPage">Previous</button>
     <button v-on:click="nextPage">Next</button> -->
-    <div v-for= "quote in filteredQuotes">
+    <div class="pageNav">
+      <a v-for="i in numOfPages" :key="i" v-on:click="changePage(i)"> {{ i }} </a>
+    </div>
+    <div class="form-group">
+      <label for='quote'> Search By Quote</label>
+      <input type="text" v-model="themeFilter">
+    </div>
+    <div v-for= "quote in filterBy(totalQuotes, themeFilter, 'quote')">
       <h1>"{{ quote.quote }}"</h1>
       <div class="source">
         <h2> - {{ quote.source}}</h2>
@@ -31,8 +38,11 @@
 <script>
 
 import axios from "axios";
+import Vue2Filters from "vue2-filters"
 
 export default {
+  mixins: [Vue2Filters.mixin],
+  
   data: function() {
     return {
       quotes: [
@@ -79,17 +89,19 @@ export default {
       startingQuote: 0, 
       maxQuotes: 15,
       endQuote: 15,
+      themeFilter: ""
     };
   },
 
   computed: {
-    filteredQuotes: function() {
+    totalQuotes: function() {
       return this.quotes.slice(this.startingQuote, this.endQuote)
     },
     numOfPages: function() {
       return Math.ceil(this.quotes.length / this.maxQuotes)
-    }
+    },
   },
+  
   
   // created: function() {
   //   const agent = new https.Agent({  
